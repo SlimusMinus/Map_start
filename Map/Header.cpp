@@ -7,11 +7,11 @@ int main()
 
 	vector<string> fr{ "Paris", "Marseilles", "Lyon", "Toulouse", "Nice" };
 	ctr.emplace("France", fr);
-	vector<string> sp{ "Madrid", "Barcelona", "Malaga", "Sevilla", "Tarrasa" };
+	vector<string> sp{ "Madrid", "Barcelona" };
 	ctr.emplace("Spain", sp);
-	vector<string> it{ "Rome", "Florence", "Naples", "Turin  ", "Palermo" };
+	vector<string> it{ "Rome", "Florence", "Naples", "Palermo" };
 	ctr.emplace("Italy", it);
-	vector<string> ger{ "Berlin", "Hamburg  ", "Munich", "Koln   ", "Stuttgart" };
+	vector<string> ger{ "Berlin", "Hamburg  ", "Munich", "Stuttgart" };
 	ctr.emplace("Germany", ger);
 	vector<string> grc{ "Athens", "Thessaloniki", "Patras", "Heraklion", "Acharnes" };
 	ctr.emplace("Greece", grc);
@@ -48,7 +48,7 @@ int main()
 				{
 					system("cls");
 					Show(ctr);
-					Capital(fr, sp, it, ger, grc);
+					Capital(ctr);
 					system("pause");
 
 				}
@@ -78,10 +78,9 @@ int main()
 
 ostream& operator<<(ostream& os, vector <string>& town)
 {
-	if (town.size() == 4)
-		os << town[0] << "\t" << town[1] << "\t" << town[2] << "\t " << town[3];
-	else
-		os << town[0] << "\t" << town[1] << "\t" << town[2] << "\t " << town[3] << "\t" << town[4];
+	int size = town.size();
+	for (int i = 0; i < size; i++)
+		cout << town[i] << "\t";
 	return os;
 }
 
@@ -97,12 +96,14 @@ void Show(map <string, vector <string>> col)
 void Search(map<string, vector<string>> ctr)
 {
 	string word;
+	int size;
 	cout << "Enter the town" << endl;
 	cin >> word;
 	auto iter = ctr.begin();
 	for (int i = 0; i != ctr.size(); i++)
 	{
-		for (int j = 0; j < 5; j++)
+		size = iter->second.size();
+		for (int j = 0; j < size; j++)
 		{
 			if (ctr[iter->first][j] == word)
 				cout << "Country is " << iter->first << endl;
@@ -111,31 +112,15 @@ void Search(map<string, vector<string>> ctr)
 	}
 }
 
-void Capital(vector<string> fr, vector<string> sp, vector<string> it, vector<string> ger, vector<string> grc)
+void Capital(map <string, vector <string>> ctr)
 {
-	cout << "Countrie 1 - France, 2 - Spain, 3 - Italy, 4 - Germany, 5 - Greece" << endl;
-	cout << "Enter the country number and find out its capital" << endl;
-	int key;
-	cin >> key;
-	switch (key)
+	string country;
+	cout << "Enter country" << endl;
+	cin >> country;
+	for (auto iter = ctr.begin(); iter != ctr.upper_bound(country); iter++)
 	{
-	case 1:
-		cout << "capital is " << fr[0] << endl;
-		break;
-	case 2:
-		cout << "capital is " << sp[0] << endl;
-		break;
-	case 3:
-		cout << "capital is " << it[0] << endl;
-		break;
-	case 4:
-		cout << "capital is " << ger[0] << endl;
-		break;
-	case 5:
-		cout << "capital is " << grc[0] << endl;
-		break;
-	default:
-		cout << "number is error" << endl;
+		if (iter->first == country)
+			cout << "Capital " << country << " is " << iter->second[0] << endl;
 	}
 }
 
